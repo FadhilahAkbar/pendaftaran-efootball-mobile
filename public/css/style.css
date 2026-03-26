@@ -1,0 +1,43 @@
+/* --- TEMA DASAR (MOBILE-FIRST) --- */
+body {
+  background-color: #121212; /* Warna latar belakang gelap khas gaming */
+  color: #ffffff; /* Teks warna putih agar terbaca */
+  /* Kita beri jarak kosong di bawah sebesar 70px agar 
+       konten paling bawah tidak tertutup oleh navigasi */
+  padding-bottom: 70px;
+}
+
+/* --- BOTTOM NAVIGATION BAR --- */
+.bottom-nav {
+  position: fixed; /* Kunci posisinya agar menempel terus */
+  bottom: 0; /* Tempelkan di paling bawah layar (0 piksel dari bawah) */
+  width: 100%; /* Lebarnya memenuhi layar HP */
+  background-color: #1e1e1e;
+  display: flex; /* Gunakan Flexbox agar menu sejajar menyamping */
+  justify-content: space-around; /* Bagi jarak antar menu secara adil */
+  padding: 10px 0;
+  border-top: 1px solid #333; /* Garis batas tipis di atas navigasi */
+  z-index: 1030; /* Pastikan navigasi ini selalu di depan/atas elemen lain */
+}
+
+/* Desain untuk setiap tombol/link di navigasi */
+.bottom-nav a {
+  color: #888; /* Warna abu-abu saat tidak aktif */
+  text-align: center;
+  text-decoration: none; /* Hilangkan garis bawah bawaan link */
+  font-size: 12px; /* Ukuran teks kecil khas aplikasi mobile */
+  flex-grow: 1;
+}
+
+/* Desain untuk Ikon di dalam tombol */
+.bottom-nav a i {
+  display: block; /* Buat ikon berada di atas teks */
+  font-size: 20px;
+  margin-bottom: 3px;
+}
+
+/* Desain saat tombol sedang aktif atau diklik */
+.bottom-nav a.active,
+.bottom-nav a:hover {
+  color: #0d6efd; /* Berubah jadi biru Bootstrap */
+}
