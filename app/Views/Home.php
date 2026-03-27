@@ -8,7 +8,9 @@
             <i class="fas fa-user-circle me-2"></i> Halo, <b><?= esc(session()->get('user_name')); ?></b>!
         </div>
         <?php if(session()->get('user_role') == 'admin'): ?>
-            <a href="<?= base_url('/admin'); ?>" class="btn btn-sm btn-light fw-bold px-2 py-0">Panel Admin</a>
+            <a href="<?= base_url('/admin'); ?>" class="btn btn-sm btn-light fw-bold px-2 py-0 text-dark">
+                <i class="fas fa-plus-circle me-1"></i> Tambah Turnamen
+            </a>
         <?php endif; ?>
     </div>
 <?php endif; ?>
@@ -58,10 +60,18 @@
 
                 <?php if(session()->get('user_role') == 'admin'): ?>
                     <hr class="border-secondary mt-3 mb-2">
-                    <div class="d-grid">
+                    <div class="d-grid gap-2">
                         <a href="<?= base_url('/admin/turnamen/' . $t['id'] . '/tim'); ?>" class="btn btn-sm btn-info text-dark fw-bold">
-                            <i class="fas fa-users-cog me-2"></i>Kelola Pendaftar Tim
+                            <i class="fas fa-users-cog me-2"></i>Kelola Pendaftar
                         </a>
+                        <div class="d-flex gap-2">
+                            <a href="<?= base_url('/admin/edit/' . $t['id']); ?>" class="btn btn-sm btn-warning flex-fill fw-bold text-dark">
+                                <i class="fas fa-edit me-1"></i>Edit
+                            </a>
+                            <a href="<?= base_url('/admin/delete/' . $t['id']); ?>" class="btn btn-sm btn-danger flex-fill fw-bold" onclick="return confirm('Yakin ingin menghapus turnamen ini?')">
+                                <i class="fas fa-trash me-1"></i>Hapus
+                            </a>
+                        </div>
                     </div>
                 <?php endif; ?>
 

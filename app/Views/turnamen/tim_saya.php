@@ -3,6 +3,18 @@
 
 <h4 class="mb-4 fw-bold"><i class="fas fa-users me-2"></i>Status Pendaftaran Saya</h4>
 
+<?php if(session()->getFlashdata('success')): ?>
+    <div class="alert bg-success text-white small py-2 border-0 shadow-sm mb-3">
+        <i class="fas fa-check-circle me-1"></i> <?= session()->getFlashdata('success'); ?>
+    </div>
+<?php endif; ?>
+
+<?php if(session()->getFlashdata('error')): ?>
+    <div class="alert bg-danger text-white small py-2 border-0 shadow-sm mb-3">
+        <i class="fas fa-exclamation-circle me-1"></i> <?= session()->getFlashdata('error'); ?>
+    </div>
+<?php endif; ?>
+
 <?php if(empty($my_teams)): ?>
     <div class="alert alert-dark border-secondary text-center text-light opacity-75">
         <i class="fas fa-sad-tear fs-1 mb-2"></i><br>
@@ -15,14 +27,13 @@
                 <small class="text-warning d-block mb-1">Turnamen:</small>
                 <h5 class="card-title fw-bold mb-3"><?= esc($tim['turnamen_name']); ?></h5>
                 
-                <div class="d-flex justify-content-between align-items-center p-2 bg-secondary bg-opacity-25 rounded border border-secondary">
+                <div class="p-2 bg-secondary bg-opacity-25 rounded border border-secondary mb-3">
+                    <small class="d-block text-light opacity-75 mb-1">Nama Tim / Squad:</small>
+                    <span class="fw-bold fs-6"><?= esc($tim['team_name']); ?></span>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center">
                     <div>
-                        <small class="d-block text-light opacity-75 mb-1">Nama Tim / Squad:</small>
-                        <span class="fw-bold fs-6"><?= esc($tim['team_name']); ?></span>
-                    </div>
-                    
-                    <div class="text-end">
-                        <small class="d-block text-light opacity-75 mb-1">Status:</small>
                         <?php if($tim['status'] == 'pending'): ?>
                             <span class="badge bg-secondary px-2 py-1"><i class="fas fa-clock me-1"></i>Menunggu</span>
                         <?php elseif($tim['status'] == 'approved'): ?>
@@ -31,8 +42,13 @@
                             <span class="badge bg-danger px-2 py-1"><i class="fas fa-times me-1"></i>Ditolak</span>
                         <?php endif; ?>
                     </div>
+                    
+                    <a href="<?= base_url('/tim-saya/batal/' . $tim['id']); ?>" 
+                       class="btn btn-sm btn-outline-danger px-3 rounded-pill fw-bold" 
+                       onclick="return confirm('Apakah kamu yakin ingin membatalkan pendaftaran tim ini?')">
+                        <i class="fas fa-trash-alt me-1"></i> Batalkan
+                    </a>
                 </div>
-                
             </div>
         </div>
     <?php endforeach; ?>

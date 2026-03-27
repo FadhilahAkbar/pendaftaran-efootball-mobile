@@ -77,4 +77,33 @@ class Turnamen extends BaseController
 
         return view('turnamen/bagan', $data);
     }
+
+    public function batalDaftar($team_id)
+    {
+        $teamModel = new TeamModel();
+        $tournamentModel = new TournamentModel();
+
+        // 1. Ambil data tim untuk mengecek status turnamennya
+        $team = $teamModel->find($team_id);
+
+        if (!$team) {
+            return redirect()->back()->with('error', 'Data tim tidak ditemukan.');
+        }
+
+        // 2. Keamanan: Pastikan yang menghapus adalah pemilik akun tim tersebut
+        if ($team['user_id'] != session()->get('user_id')) {
+            return redirect()->back()->with('error', 'Kamu tidak punya akses untuk membatalkan tim ini.');
+        }
+
+        // 3. Cek status turnamen. Hanya boleh batal jika status masih 'open' (DIBUKA)
+        $turnamen = $tournamentModel->find($team['tournament_id']);
+        if ($turnamen['status'] != 'open') {
+            return redirect()->back()->with('error', 'Pendaftaran tidak bisa dibatalkan karena turnamen sudah berjalan/selesai.');
+        }
+
+        // 4. Proses hapus dari database
+        $teamModel->delete($team_id);
+
+        return redirect()->to('/tim-saya')->with('success', 'Pendaftaran tim berhasil dibatalkan.');
+    }
 }

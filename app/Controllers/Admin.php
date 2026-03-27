@@ -78,4 +78,42 @@ class Admin extends BaseController
         session()->setFlashdata('success', 'Status turnamen berhasil diubah!');
         return redirect()->back();
     }
+
+    public function edit($id)
+    {
+        $tournamentModel = new TournamentModel();
+        $data['turnamen'] = $tournamentModel->find($id);
+        
+        return view('admin/edit_tournament', $data);
+    }
+
+    public function update($id)
+    {
+        $tournamentModel = new TournamentModel();
+        
+        $data = [
+            'name'        => $this->request->getPost('name'),
+            'description' => $this->request->getPost('description'),
+            'status'      => $this->request->getPost('status'),
+        ];
+        
+        $tournamentModel->update($id, $data);
+        
+        session()->setFlashdata('success', 'Turnamen berhasil diperbarui!');
+        return redirect()->to('/');
+    }
+
+    public function delete($id)
+    {
+        $tournamentModel = new TournamentModel();
+        
+        // Opsional: Hapus juga tim yang terdaftar di turnamen ini agar database bersih
+        $teamModel = new \App\Models\TeamModel();
+        $teamModel->where('tournament_id', $id)->delete();
+        
+        $tournamentModel->delete($id);
+        
+        session()->setFlashdata('success', 'Turnamen berhasil dihapus!');
+        return redirect()->to('/');
+    }
 }
