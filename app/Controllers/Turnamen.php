@@ -52,6 +52,8 @@ class Turnamen extends BaseController
             'user_id'       => $userId,
             'tournament_id' => $tournamentId,
             'team_name'     => $this->request->getPost('team_name'),
+            'in_game_name'  => $this->request->getPost('in_game_name'), // Tangkap Nickname
+            'in_game_id'    => $this->request->getPost('in_game_id'),
             'status'        => 'pending' 
         ];
 

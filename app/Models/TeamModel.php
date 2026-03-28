@@ -12,7 +12,7 @@ class TeamModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['user_id', 'tournament_id', 'team_name', 'status'];
+    protected $allowedFields = ['user_id', 'tournament_id', 'team_name', 'in_game_name', 'in_game_id', 'status'];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
