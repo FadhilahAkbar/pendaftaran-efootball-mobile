@@ -1,43 +1,100 @@
-/* --- TEMA DASAR (MOBILE-FIRST) --- */
+/* --- TEMA DASAR (MODERN GAMING) --- */
 body {
-  background-color: #121212; /* Warna latar belakang gelap khas gaming */
-  color: #ffffff; /* Teks warna putih agar terbaca */
-  /* Kita beri jarak kosong di bawah sebesar 70px agar 
-       konten paling bawah tidak tertutup oleh navigasi */
-  padding-bottom: 70px;
+  background-color: #0a0a0c; /* Hitam pekat yang lebih modern dari #121212 */
+  color: #f8f9fa;
+  font-family: "Montserrat", sans-serif; /* Menerapkan font Google */
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden; /* Mencegah scroll menyamping jika konten luber */
 }
 
-/* --- BOTTOM NAVIGATION BAR --- */
+/* --- BOTTOM NAVIGATION BAR (GLASSMORPHISM) --- */
 .bottom-nav {
-  position: fixed; /* Kunci posisinya agar menempel terus */
-  bottom: 0; /* Tempelkan di paling bawah layar (0 piksel dari bawah) */
-  width: 100%; /* Lebarnya memenuhi layar HP */
-  background-color: #1e1e1e;
-  display: flex; /* Gunakan Flexbox agar menu sejajar menyamping */
-  justify-content: space-around; /* Bagi jarak antar menu secara adil */
-  padding: 10px 0;
-  border-top: 1px solid #333; /* Garis batas tipis di atas navigasi */
-  z-index: 1030; /* Pastikan navigasi ini selalu di depan/atas elemen lain */
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  /* Efek Kaca (Glassmorphism) */
+  background: rgba(18, 18, 18, 0.85);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 12px 0 18px 0; /* Padding bawah lebih besar agar nyaman di HP (Home Indicator iOS) */
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  z-index: 1030;
+  box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.8);
 }
 
-/* Desain untuk setiap tombol/link di navigasi */
+/* Desain untuk setiap menu di navigasi */
 .bottom-nav a {
-  color: #888; /* Warna abu-abu saat tidak aktif */
+  color: #6c757d; /* Warna abu-abu redup (tidak aktif) */
   text-align: center;
-  text-decoration: none; /* Hilangkan garis bawah bawaan link */
-  font-size: 12px; /* Ukuran teks kecil khas aplikasi mobile */
+  text-decoration: none;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
   flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.3s ease;
+  position: relative;
 }
 
-/* Desain untuk Ikon di dalam tombol */
+/* Desain Ikon Navigasi */
 .bottom-nav a i {
-  display: block; /* Buat ikon berada di atas teks */
-  font-size: 20px;
-  margin-bottom: 3px;
+  font-size: 22px;
+  transition:
+    transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+    color 0.3s ease,
+    text-shadow 0.3s ease;
 }
 
-/* Desain saat tombol sedang aktif atau diklik */
-.bottom-nav a.active,
-.bottom-nav a:hover {
-  color: #0d6efd; /* Berubah jadi biru Bootstrap */
+/* --- EFEK ANIMASI SAAT MENU AKTIF ATAU DI-HOVER --- */
+.bottom-nav a.active i,
+.bottom-nav a:hover i {
+  transform: translateY(-4px) scale(1.1); /* Ikon membesar dan naik sedikit */
+}
+
+/* Efek Glow Neon Biru (Default Active) */
+.bottom-nav a.active.text-primary i {
+  color: #0d6efd !important;
+  text-shadow: 0 0 15px rgba(13, 110, 253, 0.6);
+}
+
+/* Efek Glow Neon Kuning/Emas (Tim Saya) */
+.bottom-nav a.active.text-warning i {
+  color: #ffc107 !important;
+  text-shadow: 0 0 15px rgba(255, 193, 7, 0.6);
+}
+
+/* Efek Glow Merah (Tombol Keluar saat di-hover) */
+.bottom-nav a.danger-hover:hover i,
+.bottom-nav a.danger-hover:hover span {
+  color: #dc3545 !important;
+}
+.bottom-nav a.danger-hover:hover i {
+  text-shadow: 0 0 15px rgba(220, 53, 69, 0.6);
+}
+
+/* Indikator Titik Menyala (Dot Indicator) di bawah menu aktif */
+.bottom-nav a::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: transparent;
+  transition:
+    background-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.bottom-nav a.active::after {
+  background-color: currentColor;
+  box-shadow: 0 0 8px currentColor;
 }

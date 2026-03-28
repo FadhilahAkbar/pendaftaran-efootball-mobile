@@ -1,73 +1,77 @@
 <?= $this->extend('layout/template'); ?>
 <?= $this->section('content'); ?>
 
-<div class="container py-4">
+<div class="container py-5">
     <div class="row justify-content-center">
-        <div class="col-md-8 col-lg-6">
-
-            <?php if(session()->getFlashdata('error')): ?>
-                <div class="alert bg-danger text-white alert-dismissible fade show py-3 border-0 shadow-sm mb-4" role="alert">
+        <div class="col-md-8 col-lg-6"> <?php if(session()->getFlashdata('error')): ?>
+                <div class="alert bg-danger text-white alert-dismissible fade show py-3 border-0 shadow-sm rounded-4 mb-4" role="alert">
                     <i class="fas fa-exclamation-circle me-2 fs-5 align-middle"></i> 
                     <span class="align-middle fw-bold"><?= session()->getFlashdata('error'); ?></span>
                     <button type="button" class="btn-close btn-close-white px-2 py-3" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             <?php endif; ?>
 
-            <div class="card bg-dark text-white border-secondary shadow-lg">
-                <div class="card-header bg-primary border-secondary py-3">
-                    <h5 class="card-title mb-0 fw-bold text-center">
-                        <i class="fas fa-edit me-2"></i>Form Pendaftaran Turnamen
-                    </h5>
-                </div>
+            <div class="card bg-black text-white border-0 shadow-lg rounded-4 overflow-hidden">
+                <div class="bg-gradient bg-success" style="height: 4px; width: 100%;"></div>
                 
-                <div class="card-body p-4">
+                <div class="card-body p-4 p-sm-5">
                     
-                    <div class="alert alert-secondary bg-transparent border-secondary text-light mb-4 text-center shadow-sm">
-                        <small class="d-block text-warning mb-1"><i class="fas fa-trophy me-1"></i> Mendaftar ke Turnamen:</small>
-                        <h5 class="fw-bold mb-0 text-white"><?= esc($turnamen['name']); ?></h5>
+                    <div class="text-center mb-4">
+                        <div class="d-inline-block bg-dark p-3 rounded-circle mb-3 border border-secondary shadow-sm">
+                            <i class="fas fa-edit fa-2x text-success"></i>
+                        </div>
+                        <h4 class="card-title fw-bolder text-uppercase mb-1" style="letter-spacing: 1px;">Join <span class="text-success">Tournament</span></h4>
+                        <p class="text-light opacity-50 small">Lengkapi data tim kamu untuk mendaftar</p>
+                    </div>
+                    
+                    <div class="alert bg-dark border border-secondary text-light mb-4 p-3 rounded-3 shadow-sm d-flex align-items-center">
+                        <i class="fas fa-trophy fa-2x text-warning me-3"></i>
+                        <div>
+                            <small class="d-block text-warning fw-bold mb-1" style="font-size: 0.75rem; letter-spacing: 0.5px;">MENDAFTAR KE:</small>
+                            <h5 class="fw-bold mb-0 text-white text-uppercase" style="letter-spacing: 0.5px;"><?= esc($turnamen['name']); ?></h5>
+                        </div>
                     </div>
 
                     <form action="<?= base_url('/turnamen/simpan'); ?>" method="POST">
-                        <?= csrf_field(); ?>
-                        
-                        <input type="hidden" name="tournament_id" value="<?= $turnamen['id']; ?>">
+                        <?= csrf_field(); ?> <input type="hidden" name="tournament_id" value="<?= $turnamen['id']; ?>">
 
                         <div class="mb-4">
-                            <label for="team_name" class="form-label text-light opacity-75 fw-bold">Nama Tim / Squad Kamu</label>
+                            <label for="team_name" class="form-label text-light opacity-75 small fw-bold text-uppercase" style="letter-spacing: 0.5px;">Nama Tim / Squad</label>
                             <div class="input-group shadow-sm">
-                                <span class="input-group-text bg-secondary border-secondary text-white"><i class="fas fa-shield-alt"></i></span>
+                                <span class="input-group-text bg-dark border-secondary text-secondary"><i class="fas fa-shield-alt"></i></span>
                                 <input type="text" class="form-control bg-dark text-white border-secondary" id="team_name" name="team_name" placeholder="Contoh: Garuda eSports" required>
                             </div>
                         </div>
 
                         <div class="mb-4">
-                            <label for="in_game_name" class="form-label text-light opacity-75 fw-bold">Nickname eFootball (IGN)</label>
+                            <label for="in_game_name" class="form-label text-light opacity-75 small fw-bold text-uppercase" style="letter-spacing: 0.5px;">Nickname (IGN) eFootball</label>
                             <div class="input-group shadow-sm">
-                                <span class="input-group-text bg-secondary border-secondary text-white"><i class="fas fa-gamepad"></i></span>
+                                <span class="input-group-text bg-dark border-secondary text-secondary"><i class="fas fa-gamepad"></i></span>
                                 <input type="text" class="form-control bg-dark text-white border-secondary" id="in_game_name" name="in_game_name" placeholder="Contoh: Budi_Gaming99" required>
                             </div>
                             <div class="form-text text-info small mt-1">
-                                <i class="fas fa-info-circle me-1"></i>Pastikan nickname sama persis dengan yang ada di dalam game.
+                                <i class="fas fa-info-circle me-1"></i>Sesuai dengan nama akun di dalam game.
                             </div>
                         </div>
 
                         <div class="mb-5">
-                            <label for="in_game_id" class="form-label text-light opacity-75 fw-bold">ID Pemilik Akun eFootball</label>
+                            <label for="in_game_id" class="form-label text-light opacity-75 small fw-bold text-uppercase" style="letter-spacing: 0.5px;">ID Pemain (Angka)</label>
                             <div class="input-group shadow-sm">
-                                <span class="input-group-text bg-secondary border-secondary text-white"><i class="fas fa-id-badge"></i></span>
+                                <span class="input-group-text bg-dark border-secondary text-secondary"><i class="fas fa-id-badge"></i></span>
                                 <input type="number" class="form-control bg-dark text-white border-secondary" id="in_game_id" name="in_game_id" placeholder="Contoh: 123456789" required>
                             </div>
                             <div class="form-text text-info small mt-1">
-                                <i class="fas fa-info-circle me-1"></i>ID berupa angka yang digunakan untuk saling Add Friend.
+                                <i class="fas fa-info-circle me-1"></i>Digunakan lawan untuk mengirim permintaan Add Friend.
                             </div>
                         </div>
 
-                        <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-success fw-bold py-2 shadow-sm">
-                                <i class="fas fa-paper-plane me-2"></i>Kirim Pendaftaran
-                            </button>
-                            <a href="<?= base_url('/'); ?>" class="btn btn-outline-light py-2 shadow-sm">
-                                <i class="fas fa-arrow-left me-2"></i>Batal & Kembali
+                        <button type="submit" class="btn btn-success bg-gradient w-100 fw-bold py-3 rounded-pill shadow mb-3 text-white text-uppercase" style="letter-spacing: 1px;">
+                            <i class="fas fa-paper-plane me-2"></i> Kirim Pendaftaran
+                        </button>
+                        
+                        <div class="text-center">
+                            <a href="<?= base_url('/'); ?>" class="text-light text-decoration-none opacity-50 small">
+                                <i class="fas fa-arrow-left me-1"></i> Batal & Kembali
                             </a>
                         </div>
                         
