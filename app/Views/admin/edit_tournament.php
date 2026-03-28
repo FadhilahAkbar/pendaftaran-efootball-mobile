@@ -30,6 +30,14 @@
                             <textarea class="form-control bg-dark text-white border-secondary rounded-3" name="description" rows="3" placeholder="Tuliskan detail, hadiah, atau aturan turnamen..." required><?= esc($turnamen['description']); ?></textarea>
                         </div>
 
+                        <div class="mb-4">
+    <label for="rules" class="form-label text-light opacity-75 small fw-bold text-uppercase" style="letter-spacing: 0.5px;">Rules & Regulation</label>
+    <div class="input-group shadow-sm">
+        <span class="input-group-text bg-dark border-secondary text-secondary"><i class="fas fa-scroll"></i></span>
+        <textarea class="form-control bg-dark text-white border-secondary rounded-end" id="rules" name="rules" rows="5" placeholder="Contoh: 1. Waktu tanding malam hari. 2. Dilarang menggunakan formasi custom. 3. DC = Kalah..." required><?= isset($turnamen) ? esc($turnamen['rules']) : ''; ?></textarea>
+    </div>
+</div>
+
                         <div class="row mb-4">
                             <div class="col-md-6 mb-4 mb-md-0">
                                 <label class="form-label text-light opacity-75 small fw-bold text-uppercase" style="letter-spacing: 0.5px;">Maksimal Slot / Akun</label>

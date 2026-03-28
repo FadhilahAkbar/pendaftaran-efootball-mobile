@@ -27,7 +27,8 @@ class Admin extends BaseController
             'name' => $this->request->getPost('name'),
             'description' => $this->request->getPost('description'),
             'status'      => $this->request->getPost('status'),
-            'max_slots'   => $this->request->getPost('max_slots')
+            'max_slots'   => $this->request->getPost('max_slots'),
+            'rules' => $this->request->getPost('rules')
         ];
 
 
@@ -96,7 +97,8 @@ class Admin extends BaseController
             'name'        => $this->request->getPost('name'),
             'description' => $this->request->getPost('description'),
             'status'      => $this->request->getPost('status'),
-            'max_slots'   => $this->request->getPost('max_slots')
+            'max_slots'   => $this->request->getPost('max_slots'),
+            'rules' => $this->request->getPost('rules'),
         ];
         
         $tournamentModel->update($id, $data);

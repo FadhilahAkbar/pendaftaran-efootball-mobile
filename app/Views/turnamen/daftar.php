@@ -32,8 +32,25 @@
                         </div>
                     </div>
 
+                    
+
                     <form action="<?= base_url('/turnamen/simpan'); ?>" method="POST">
                         <?= csrf_field(); ?> <input type="hidden" name="tournament_id" value="<?= $turnamen['id']; ?>">
+
+                        <div class="mb-4">
+    <label class="form-label text-warning small fw-bold text-uppercase" style="letter-spacing: 0.5px;">
+        <i class="fas fa-exclamation-triangle me-1"></i> Rules & Regulation Turnamen
+    </label>
+    
+    <div class="p-3 bg-dark border border-secondary rounded-3 text-light opacity-75 shadow-inner" style="max-height: 180px; overflow-y: auto; font-size: 0.85rem; white-space: pre-wrap; line-height: 1.6;"><?= esc($turnamen['rules'] ?? 'Belum ada aturan khusus yang ditetapkan oleh admin.'); ?></div>
+    
+    <div class="form-check mt-3 bg-black border border-secondary p-2 rounded-3 shadow-sm d-flex align-items-center">
+        <input class="form-check-input bg-dark border-secondary ms-1 me-3 shadow-none" type="checkbox" id="agreeRules" required style="width: 1.2rem; height: 1.2rem;">
+        <label class="form-check-label text-light small fw-bold" for="agreeRules" style="padding-top: 2px;">
+            Saya telah membaca, memahami, dan menyetujui aturan di atas.
+        </label>
+    </div>
+</div>
 
                         <div class="mb-4">
                             <label for="team_name" class="form-label text-light opacity-75 small fw-bold text-uppercase" style="letter-spacing: 0.5px;">Nama Tim / Squad</label>
