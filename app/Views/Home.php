@@ -3,7 +3,7 @@
 <?= $this->section('content'); ?>
 
 <?php if(session()->get('logged_in')): ?>
-    <div class="alert bg-success text-white border-0 shadow-sm py-2 d-flex justify-content-between align-items-center">
+    <div class="alert bg-success text-white border-0 shadow-sm py-2 d-flex justify-content-between align-items-center mb-3">
         <div>
             <i class="fas fa-user-circle me-2"></i> Halo, <b><?= esc(session()->get('user_name')); ?></b>!
         </div>
@@ -40,10 +40,18 @@
     <?php foreach($tournaments as $t): ?>
         <div class="card bg-dark text-white mb-3 border-secondary shadow-sm">
             <div class="card-body">
-                <h5 class="card-title fw-bold text-warning"><?= esc($t['name']); ?></h5>
-                <p class="card-text text-light opacity-75 small">
+                <h5 class="card-title fw-bold text-warning mb-1"><?= esc($t['name']); ?></h5>
+                
+                <p class="card-text text-light opacity-75 small mb-2">
                     <?= esc($t['description']); ?>
                 </p>
+
+                <div class="mb-3">
+                    <small class="text-info">
+                        <i class="fas fa-users me-1"></i> 
+                        Batas Pendaftaran: <b><?= esc($t['max_slots'] ?? '1'); ?> Slot</b> per akun
+                    </small>
+                </div>
                 
                 <div class="d-flex justify-content-between align-items-center mt-3">
                     <?php if($t['status'] == 'open'): ?>
@@ -74,8 +82,9 @@
                         </div>
                     </div>
                 <?php endif; ?>
-
-            </div> </div> <?php endforeach; ?>
+            </div> 
+        </div> 
+    <?php endforeach; ?>
 <?php endif; ?>
 
 <?= $this->endSection(); ?>

@@ -3,6 +3,13 @@
 
 <div class="card bg-dark text-white border-secondary shadow mt-4">
     <div class="card-header bg-primary border-secondary">
+
+    <?php if(session()->getFlashdata('error')): ?>
+    <div class="alert bg-danger text-white alert-dismissible fade show py-2 border-0 shadow-sm" role="alert">
+        <i class="fas fa-exclamation-circle me-2"></i> <?= session()->getFlashdata('error'); ?>
+        <button type="button" class="btn-close btn-close-white px-2 py-2" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<?php endif; ?>
         <h5 class="card-title mb-0 fw-bold"><i class="fas fa-edit me-2"></i>Form Pendaftaran Turnamen</h5>
     </div>
     <div class="card-body">

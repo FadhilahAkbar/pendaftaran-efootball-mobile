@@ -26,7 +26,8 @@ class Admin extends BaseController
         $data = [
             'name' => $this->request->getPost('name'),
             'description' => $this->request->getPost('description'),
-            'status'      => $this->request->getPost('status')
+            'status'      => $this->request->getPost('status'),
+            'max_slots'   => $this->request->getPost('max_slots')
         ];
 
 
@@ -95,6 +96,7 @@ class Admin extends BaseController
             'name'        => $this->request->getPost('name'),
             'description' => $this->request->getPost('description'),
             'status'      => $this->request->getPost('status'),
+            'max_slots'   => $this->request->getPost('max_slots')
         ];
         
         $tournamentModel->update($id, $data);
