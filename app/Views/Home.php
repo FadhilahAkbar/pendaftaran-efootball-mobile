@@ -34,7 +34,7 @@
 
 <div class="d-flex align-items-end mb-4 border-bottom border-secondary pb-2 mt-2">
     <h4 class="fw-bolder text-white text-uppercase mb-0" style="letter-spacing: 1px;">
-        <i class="fas fa-gamepad text-primary me-2"></i>Turnamen <span class="text-warning">eFootball</span>
+        <i class="text-primary me-2"></i>Daftar <span class="text-warning">Turnamen</span>
     </h4>
 </div>
 

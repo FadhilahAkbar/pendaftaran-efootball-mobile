@@ -35,3 +35,8 @@ $routes->get('/turnamen/bagan/(:num)', 'Turnamen::bagan/$1');
 $routes->get('/tim-saya', 'Turnamen::timSaya');
 $routes->get('/tim-saya/batal/(:num)', 'Turnamen::batalDaftar/$1');
 
+// Rute Profil Pemain
+$routes->get('/profil', 'Profil::index');
+$routes->post('/profil/update', 'Profil::updateProfil');
+$routes->post('/profil/password', 'Profil::updatePassword');
+

@@ -7,7 +7,7 @@
         <h4 class="fw-bolder text-white text-uppercase mb-0" style="letter-spacing: 1px; font-size: 1.2rem;">
             <i class="fas fa-users-cog text-primary me-2"></i>Kelola <span class="text-primary">Pendaftar</span>
         </h4>
-        <a href="<?= base_url('/admin'); ?>" class="btn btn-outline-light btn-sm rounded-pill px-3 shadow-sm fw-bold">
+        <a href="<?= base_url('/'); ?>" class="btn btn-outline-light btn-sm rounded-pill px-3 shadow-sm fw-bold">
             <i class="fas fa-arrow-left me-1"></i> <span class="d-none d-sm-inline">Kembali</span>
         </a>
     </div>

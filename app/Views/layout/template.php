@@ -17,17 +17,22 @@
 </head>
 <body>
 
-    <main class="pb-5 mb-5">
-        <div class="container mt-4">
+    <header class="fixed-top bg-black border-bottom border-secondary shadow-sm" style="z-index: 1040;">
+        <div class="container d-flex justify-content-center align-items-center py-3">
+            <a href="<?= base_url('/'); ?>" class="text-decoration-none fw-black text-uppercase fs-5" style="letter-spacing: 1px;">
+                <i class="fas fa-gamepad text-primary me-1"></i>eFoot<span class="text-warning">Tourney</span>
+            </a>
+        </div>
+    </header>
+
+    <main class="pb-5 mb-5 pt-5 mt-4">
+        <div class="container">
             <?= $this->renderSection('content'); ?>
         </div>
     </main>
 
     <nav class="bottom-nav">
-        <?php 
-            // Mengambil URL saat ini untuk mendeteksi menu mana yang sedang aktif
-            $current_url = uri_string(); 
-        ?>
+        <?php $current_url = uri_string(); ?>
 
         <a href="<?= base_url('/'); ?>" class="<?= ($current_url == '' || $current_url == '/') ? 'active text-primary' : ''; ?>">
             <i class="fas fa-home"></i>
@@ -41,9 +46,9 @@
                 <span>Tim Saya</span>
             </a>
             
-            <a href="<?= base_url('/logout'); ?>" class="text-secondary danger-hover">
-                <i class="fas fa-sign-out-alt"></i>
-                <span>Keluar</span>
+            <a href="<?= base_url('/profil'); ?>" class="<?= (strpos($current_url, 'profil') !== false) ? 'active text-info' : 'text-secondary'; ?>">
+                <i class="fas fa-user-ninja"></i>
+                <span>Profil</span>
             </a>
             
         <?php else: ?>
