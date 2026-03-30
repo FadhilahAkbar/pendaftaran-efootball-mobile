@@ -9,17 +9,13 @@ class Turnamen extends BaseController
 {
     public function daftar($id)
     {
-        // 1. Cek apakah pengguna sudah login? Kalau belum, suruh login dulu!
         if (!session()->get('logged_in')) {
-            session()->setFlashdata('error', 'Silakan login terlebih dahulu untuk mendaftar turnamen.');
-            return redirect()->to('/login');
+            return redirect()->to('/login')->with('error', 'Silakan login terlebih dahulu untuk mendaftar.');
         }
 
-        // 2. Ambil data turnamen berdasarkan ID yang diklik
         $tournamentModel = new TournamentModel();
         $data['turnamen'] = $tournamentModel->find($id);
 
-        // 3. Tampilkan halaman form pendaftaran
         return view('turnamen/daftar', $data);
     }
 
@@ -28,59 +24,63 @@ class Turnamen extends BaseController
         $teamModel = new TeamModel();
         $tournamentModel = new TournamentModel();
 
-        $userId = session()->get('user_id'); // ID pemain yang sedang login
-        $tournamentId = $this->request->getPost('tournament_id'); // ID turnamen dari form
+        $userId = session()->get('user_id');
+        $tournamentId = $this->request->getPost('tournament_id');
 
-        // --- 1. PROSES SATPAM (PENGECEKAN BATAS SLOT) ---
-        $turnamen = $tournamentModel->find($tournamentId);
-        $batas_slot = $turnamen['max_slots'] ?? 1; // Default 1 jika data kosong
+        $tournament = $tournamentModel->find($tournamentId);
 
-        // Hitung jumlah tim yang sudah didaftarkan user ini di turnamen ini
-        $jumlah_terdaftar = $teamModel->where('tournament_id', $tournamentId)
-                                      ->where('user_id', $userId)
-                                      ->countAllResults();
-
-        // Cek apakah sudah melebihi batas max_slots
-        if ($jumlah_terdaftar >= $batas_slot) {
-            session()->setFlashdata('error', 'Pendaftaran ditolak! Kamu sudah mencapai batas maksimal (' . $batas_slot . ' Slot) untuk turnamen ini.');
-            return redirect()->back(); // Kembalikan ke halaman form
+        // ---------------------------------------------------------
+        // SATPAM 1: CEK TOTAL KUOTA TURNAMEN (Misal: Max 32 Tim)
+        // ---------------------------------------------------------
+        $currentTeams = $teamModel->where('tournament_id', $tournamentId)->countAllResults();
+        
+        if ($currentTeams >= $tournament['quota']) {
+            return redirect()->back()->with('error', 'Mohon maaf, kuota pendaftaran turnamen ini sudah penuh (' . $tournament['quota'] . '/' . $tournament['quota'] . ' Tim).');
         }
-        // -----------------------------------------------
 
-        // --- 2. JIKA LOLOS PENGECEKAN, SIMPAN DATA TIM ---
+        // ---------------------------------------------------------
+        // SATPAM 2: CEK BATAS SLOT PER AKUN
+        // ---------------------------------------------------------
+        $myTeamsCount = $teamModel->where('tournament_id', $tournamentId)
+                                  ->where('user_id', $userId)
+                                  ->countAllResults();
+
+        if ($myTeamsCount >= $tournament['max_slots']) {
+            return redirect()->back()->with('error', 'Kamu sudah mencapai batas maksimal pendaftaran tim di turnamen ini!');
+        }
+
+        // Jika Lolos Pengecekan, Simpan Data
         $data = [
             'user_id'       => $userId,
             'tournament_id' => $tournamentId,
             'team_name'     => $this->request->getPost('team_name'),
-            'in_game_name'  => $this->request->getPost('in_game_name'), // Tangkap Nickname
+            'in_game_name'  => $this->request->getPost('in_game_name'),
             'in_game_id'    => $this->request->getPost('in_game_id'),
-            'status'        => 'pending' 
+            'status'        => 'pending'
         ];
 
-        // Simpan ke tabel teams
         $teamModel->save($data);
 
-        // Beri pesan sukses dan kembalikan ke beranda
-        session()->setFlashdata('success', 'Tim kamu berhasil didaftarkan! Menunggu persetujuan Admin.');
-        return redirect()->to('/');
+        return redirect()->to('/tim-saya')->with('success', 'Pendaftaran berhasil dikirim! Silakan tunggu persetujuan Admin.');
     }
 
-    public function timSaya() {
-        // 1. Pastikan yang mengakses sudah login
+    public function timSaya()
+    {
         if (!session()->get('logged_in')) {
-            session()->setFlashdata('error', 'Silakan login terlebih dahulu.');
             return redirect()->to('/login');
         }
 
-        $teamModel = new TeamModel();
-        $userId    = session()->get('user_id');
+        $userId = session()->get('user_id');
+        
+        // Mengambil data tim dan nama turnamennya menggunakan Query Builder
+        $db      = \Config\Database::connect();
+        $builder = $db->table('teams');
+        $builder->select('teams.*, tournaments.name as turnamen_name');
+        $builder->join('tournaments', 'tournaments.id = teams.tournament_id');
+        $builder->where('teams.user_id', $userId);
+        $query   = $builder->get();
 
-        // 2. Ambil data tim milik pemain ini, gabungkan dengan tabel turnamen untuk ambil nama turnamennya
-        $data['my_teams'] = $teamModel->select('teams.*, tournaments.name as turnamen_name')
-                                      ->join('tournaments', 'tournaments.id = teams.tournament_id')
-                                      ->where('teams.user_id', $userId)
-                                      ->orderBy('teams.id', 'DESC') // Urutkan dari yang terbaru
-                                      ->findAll();
+        $data['my_teams'] = $query->getResultArray();
 
         return view('turnamen/tim_saya', $data);
     }
@@ -100,32 +100,11 @@ class Turnamen extends BaseController
         return view('turnamen/bagan', $data);
     }
 
-    public function batalDaftar($team_id)
+    public function batalDaftar($id)
     {
         $teamModel = new TeamModel();
-        $tournamentModel = new TournamentModel();
-
-        // 1. Ambil data tim untuk mengecek status turnamennya
-        $team = $teamModel->find($team_id);
-
-        if (!$team) {
-            return redirect()->back()->with('error', 'Data tim tidak ditemukan.');
-        }
-
-        // 2. Keamanan: Pastikan yang menghapus adalah pemilik akun tim tersebut
-        if ($team['user_id'] != session()->get('user_id')) {
-            return redirect()->back()->with('error', 'Kamu tidak punya akses untuk membatalkan tim ini.');
-        }
-
-        // 3. Cek status turnamen. Hanya boleh batal jika status masih 'open' (DIBUKA)
-        $turnamen = $tournamentModel->find($team['tournament_id']);
-        if ($turnamen['status'] != 'open') {
-            return redirect()->back()->with('error', 'Pendaftaran tidak bisa dibatalkan karena turnamen sudah berjalan/selesai.');
-        }
-
-        // 4. Proses hapus dari database
-        $teamModel->delete($team_id);
-
+        $teamModel->delete($id);
+        
         return redirect()->to('/tim-saya')->with('success', 'Pendaftaran tim berhasil dibatalkan.');
     }
 

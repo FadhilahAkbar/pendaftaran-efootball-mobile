@@ -28,7 +28,8 @@ class Admin extends BaseController
             'description' => $this->request->getPost('description'),
             'status'      => $this->request->getPost('status'),
             'max_slots'   => $this->request->getPost('max_slots'),
-            'rules' => $this->request->getPost('rules')
+            'quota'       => $this->request->getPost('quota'),
+            'rules'       => $this->request->getPost('rules')
         ];
 
 
@@ -98,9 +99,10 @@ class Admin extends BaseController
             'description' => $this->request->getPost('description'),
             'status'      => $this->request->getPost('status'),
             'max_slots'   => $this->request->getPost('max_slots'),
+            'quota'   => $this->request->getPost('quota'),
             'rules' => $this->request->getPost('rules'),
         ];
-        
+
         $tournamentModel->update($id, $data);
         
         session()->setFlashdata('success', 'Turnamen berhasil diperbarui!');

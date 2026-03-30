@@ -20,7 +20,7 @@
     <header class="fixed-top bg-black border-bottom border-secondary shadow-sm" style="z-index: 1040;">
         <div class="container d-flex justify-content-center align-items-center py-3">
             <a href="<?= base_url('/'); ?>" class="text-decoration-none fw-black text-uppercase fs-5" style="letter-spacing: 1px;">
-                <i class="fas fa-gamepad text-primary me-1"></i>eFoot<span class="text-warning">Tourney</span>
+                <i class="fas fa-gamepad text-primary me-1"></i>SINZGaming<span class="text-warning">   Zone</span>
             </a>
         </div>
     </header>
